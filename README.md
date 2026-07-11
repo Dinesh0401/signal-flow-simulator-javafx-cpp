@@ -1,86 +1,287 @@
 # Signal Flow Simulator
 
-A professional signal-processing block-diagram application featuring draggable blocks, CubicCurve wiring, live simulation, and a C++ mathematical backend.
+A desktop-based **Signal Flow Simulator** built using **Java 21**, **JavaFX**, and **Maven**. The application allows users to visually create signal-processing pipelines using draggable blocks, connect them with dynamic Bézier curve wires, and observe real-time waveform simulation through an oscilloscope (Scope).
 
-## Project Features
+The project demonstrates graph-based execution, real-time visualization, and optional native C++ acceleration using JNI with a graceful Java fallback.
 
-- **Draggable Blocks:** Add, move, and connect signal processing blocks dynamically.
-- **Wire Connections:** Drag wires from output to input ports with smooth cubic Bézier curves.
-- **Live Simulation Engine:** Ticks the directed acyclic graph (DAG) topologically at 60 FPS using JavaFX `AnimationTimer`.
-- **Live Scope Plotting:** Visualizes waveforms in real-time.
-- **C++ Native Backend:** Math computations (sine, cosine) offloaded to C++ using JNI, with a seamless fallback to Java `Math` if the native library is missing.
-- **Modern UI:** Professional dark-themed UI, grid backgrounds, zoom/pan workspace, and animated states.
+---
 
-## Folder Structure
+## Project Overview
+
+The simulator provides an interactive workspace where users can:
+
+- Create signal-processing block diagrams
+- Connect blocks using drag-and-drop wiring
+- Simulate signal flow in real time
+- Visualize waveforms using a Scope block
+- Execute mathematical operations using either:
+  - Native C++ (JNI)
+  - Java `Math` fallback (default)
+
+---
+
+## Features
+
+### Interactive Workspace
+- Draggable signal-processing blocks
+- Infinite canvas with zoom and pan
+- Dynamic Cubic Bézier wire connections
+- Real-time node updates
+
+### Simulation Engine
+- Directed Acyclic Graph (DAG) execution
+- Kahn's Topological Sort
+- 60 FPS simulation using JavaFX AnimationTimer
+- Stable simulation timestep
+
+### Signal Blocks
+- Clock Generator
+- Sine Wave Generator
+- Scope (Waveform Viewer)
+
+### Native Backend
+- JNI integration with C++
+- Automatic fallback to Java `Math`
+- No application crash when native library is unavailable
+
+### User Interface
+- Modern dark theme
+- Responsive layout
+- Smooth animations
+- Grid-based workspace
+
+---
+
+# Technology Stack
+
+| Technology | Purpose |
+|------------|---------|
+| Java 21 LTS | Core Application |
+| JavaFX 21 | Desktop GUI |
+| Maven 3.9 | Build & Dependency Management |
+| C++ | Native Math Backend |
+| JNI | Java ↔ C++ Communication |
+| CSS | UI Styling |
+| VS Code | Development Environment |
+
+---
+
+# Project Structure
 
 ```
 signal-flow-simulator/
-├── pom.xml                        # Maven configuration 
-├── src/main/java/com/signalflow/  # JavaFX Frontend and Engine Source
-│   ├── model/                     # Pure Java POJO model (Graph, Ports, Blocks)
-│   ├── view/                      # JavaFX UI components (Nodes, Canvas, Ports)
-│   ├── controller/                # Interaction handling and Simulation bridge
-│   ├── engine/                    # Simulation ticking and JNI bridge
-│   └── App.java                   # Application Entry Point
-├── src/main/resources/com/signalflow/
-│   └── styles.css                 # Application styling
-├── native/                        # C++ Backend Source
-│   ├── include/native_math.h
-│   ├── src/native_math.cpp
-│   ├── src/jni_bridge.cpp
-│   └── CMakeLists.txt             # Build script for native shared library
-└── .vscode/                       # Editor configurations
-    ├── settings.json
-    └── launch.json
+│
+├── pom.xml
+├── README.md
+├── REPORT.md
+├── mvnw.cmd
+├── .mvn/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/signalflow/
+│   │   │       ├── controller/
+│   │   │       ├── engine/
+│   │   │       ├── model/
+│   │   │       ├── view/
+│   │   │       └── App.java
+│   │   │
+│   │   └── resources/
+│   │       └── styles.css
+│
+├── native/
+│   ├── include/
+│   ├── src/
+│   └── CMakeLists.txt
+│
+└── .vscode/
 ```
 
-## Setup Instructions
+---
 
-### Prerequisites
-- **Java 21 (JDK)**
-- **Maven** (A Maven wrapper is included in `.mvn` if you don't have Maven installed globally).
-- **C++ Compiler (Optional but recommended):** MinGW-w64 (`g++`) and `cmake` for building the native backend.
+# Requirements
 
-### 1. Build and Run the Java Application
-The application can be compiled and launched using Maven. Without the native library, it will use the graceful fallback (Java standard Math library) and log a warning.
+- Java 21 or above
+- Maven 3.9+
+- VS Code (Recommended)
+
+Optional:
+
+- MinGW-w64
+- CMake
+
+These are required only for building the native C++ backend.
+
+---
+
+# Build Instructions
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Dinesh0401/signal-flow-simulator.git
+
+cd signal-flow-simulator
+```
+
+Compile the project:
 
 ```bash
 mvn clean compile
+```
+
+Run the application:
+
+```bash
 mvn javafx:run
 ```
 
-If using VS Code, simply open the project and press `F5` to run the pre-configured "Signal Flow Simulator" launch configuration.
+---
 
-### 2. Build the Native C++ Backend (Optional)
-To enable the native C++ math computations, compile the shared library and ensure it is placed in the project root directory (where `pom.xml` resides).
+# Native Backend (Optional)
 
-1. Ensure `g++` and `cmake` are in your PATH.
-2. Open a terminal and navigate to the `native/` folder:
-   ```bash
-   cd native
-   cmake -B build -G "MinGW Makefiles"
-   cmake --build build
-   ```
-3. The CMake configuration automatically outputs the compiled `.dll` (on Windows) directly into the project root directory.
-4. Run the Java application again. The UI's top bar should indicate the native backend is active.
+The simulator supports native mathematical computation through JNI.
 
-## Screenshots Instructions
+To enable it:
 
-To submit screenshots for this assignment:
-1. **Launch the application.** Add a Clock block, Sine block, and Scope block.
-2. **Connect them:** Drag a wire from Clock's output to Sine's input. Then Sine's output to Scope's input.
-3. **Capture UI:** Take a screenshot of the main workspace showing the connected blocks and curved wires.
-4. **Capture Simulation:** Click "Start" on the toolbar. Take a screenshot showing the live waveform plotting on the Scope.
-5. **Save to folder:** Store all captured screenshots in a `screenshots/` directory within this project.
+```bash
+cd native
 
-## Git Commits Recommendations
+cmake -B build -G "MinGW Makefiles"
 
-When initializing this repository, it is recommended to use the following logical commit history:
-- `chore: initial maven project scaffold and vscode config`
-- `feat: implement pure java model layer (DAG, Blocks, Ports)`
-- `feat: implement draggable view layer and workspace canvas`
-- `feat: add wire connection interactions (CubicCurve)`
-- `feat: integrate simulation engine and AnimationTimer`
-- `feat: implement live scope plotting`
-- `feat: add C++ JNI backend and graceful fallback`
-- `style: apply professional dark theme UI polish`
+cmake --build build
+```
+
+Place the generated shared library (`signalflow_native.dll`) in the project root.
+
+If the native library is not found, the application automatically switches to Java's built-in `Math` implementation.
+
+This behavior is intentional and does not affect the functionality of the application.
+
+---
+
+# How to Use
+
+1. Launch the application.
+2. Add a **Clock** block.
+3. Add a **Sine** block.
+4. Add a **Scope** block.
+5. Connect:
+
+```
+Clock → Sine → Scope
+```
+
+6. Start the simulation.
+7. Observe the waveform in the Scope block.
+8. Adjust the Clock frequency to see live waveform updates.
+
+---
+
+# Verification
+
+The project has been verified using the following commands.
+
+Build:
+
+```bash
+mvn clean
+```
+
+Result:
+
+```
+BUILD SUCCESS
+```
+
+Compile:
+
+```bash
+mvn compile
+```
+
+Result:
+
+```
+BUILD SUCCESS
+```
+
+Run:
+
+```bash
+mvn javafx:run
+```
+
+Verified:
+
+- Application launches successfully
+- Signal blocks function correctly
+- Scope renders waveform
+- Drag-and-drop wiring works
+- Zoom and pan work
+- Java fallback operates correctly when JNI library is absent
+
+---
+
+# Screenshots
+
+For submission, include screenshots showing:
+
+- Main workspace
+- Connected signal blocks
+- Curved wire connections
+- Live waveform on the Scope
+- Running simulation
+
+Store screenshots inside:
+
+```
+screenshots/
+```
+
+---
+
+# Design Highlights
+
+- MVC Architecture
+- Modular code organization
+- Graph-based execution
+- Property binding for wire synchronization
+- Canvas-based waveform rendering
+- Graceful native fallback
+- Clean and maintainable codebase
+
+---
+
+# Future Improvements
+
+- Additional signal blocks
+- Save/Open projects
+- Undo/Redo support
+- FFT visualization
+- Plugin architecture
+- Multi-threaded simulation
+- Export waveform data
+
+---
+
+# Author
+
+**Dinesh S J**
+
+Final Year – Computer Science and Business Systems
+
+Knowledge Institute of Technology, Salem
+
+Email: **sjdineshofficial@gmail.com**
+
+GitHub: **https://github.com/Dinesh0401**
+
+LinkedIn: **https://www.linkedin.com/in/dinesh-s-j**
+
+---
+
+# License
+
+This project was developed as part of the **PASS Science Works Technical Assignment** for evaluation purposes.

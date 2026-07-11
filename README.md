@@ -4,7 +4,8 @@ A desktop-based **Signal Flow Simulator** built using **Java 21**, **JavaFX**, a
 
 The project demonstrates graph-based execution, real-time visualization, and optional native C++ acceleration using JNI with a graceful Java fallback.
 
-## Resources
+[![Signal Flow Simulator Demo](https://img.youtube.com/vi/RMCln3emfm0/hqdefault.jpg)](https://www.youtube.com/watch?v=RMCln3emfm0)
+
 
 - **Project Demo:** https://www.youtube.com/watch?v=RMCln3emfm0
 - **Technical Blog:** https://medium.com/@dineshsj/building-a-signal-flow-simulator-with-javafx-maven-jni-my-technical-assignment-journey-d490aa64c6b6

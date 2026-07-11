@@ -15,7 +15,7 @@ A professional signal-processing block-diagram application featuring draggable b
 
 ```
 signal-flow-simulator/
-├── pom.xml                        # Maven configuration
+├── pom.xml                        # Maven configuration 
 ├── src/main/java/com/signalflow/  # JavaFX Frontend and Engine Source
 │   ├── model/                     # Pure Java POJO model (Graph, Ports, Blocks)
 │   ├── view/                      # JavaFX UI components (Nodes, Canvas, Ports)

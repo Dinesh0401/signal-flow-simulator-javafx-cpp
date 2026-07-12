@@ -1,4 +1,4 @@
-# Signal Flow Simulator
+# Signal Flow Simulator 
 
 A desktop-based **Signal Flow Simulator** built using **Java 21**, **JavaFX**, and **Maven**. The application allows users to visually create signal-processing pipelines using draggable blocks, connect them with dynamic Bézier curve wires, and observe real-time waveform simulation through an oscilloscope (Scope).
 

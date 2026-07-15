@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Signal Flow Simulator",
+      "request": "launch",
+      "mainClass": "com.signalflow.App",
+      "projectName": "signal-flow-simulator"
+    }
+  ]
+}

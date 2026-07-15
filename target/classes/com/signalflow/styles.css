@@ -1,0 +1,439 @@
+/*
+ * Signal Flow Simulator — MATLAB Simulink Light Theme
+ * Mimics the Simulink workspace aesthetic: white canvas, blue toolbar, clean lines.
+ */
+
+/* ===================================================================
+   ROOT / SCENE
+   =================================================================== */
+
+.root {
+    -fx-background-color: #f0f0f0;
+    -fx-font-family: 'Segoe UI', system-ui, sans-serif;
+    -fx-text-fill: #222222;
+    -fx-focus-color: #2e5090;
+    -fx-faint-focus-color: transparent;
+    -fx-accent: #2e5090;
+}
+
+/* ===================================================================
+   TOOLBAR — MATLAB Ribbon Style
+   =================================================================== */
+
+.tool-bar {
+    -fx-background-color: linear-gradient(to bottom, #3b6cb5, #2e5090);
+    -fx-border-color: transparent transparent #1e3a6e transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 6 12 6 12;
+    -fx-min-height: 44;
+    -fx-pref-height: 44;
+    -fx-spacing: 6;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.tool-bar .separator {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.tool-bar .separator .line {
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-width: 0 1 0 0;
+}
+
+/* ===================================================================
+   BUTTONS — Toolbar (on blue ribbon)
+   =================================================================== */
+
+.button {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-text-fill: #ffffff;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-width: 1;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-padding: 4 10 4 10;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-text-fill: white;
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+}
+
+.button:pressed {
+    -fx-background-color: rgba(255, 255, 255, 0.4);
+    -fx-text-fill: white;
+    -fx-border-color: rgba(255, 255, 255, 0.6);
+}
+
+.button:focused {
+    -fx-border-color: rgba(255, 255, 255, 0.6);
+}
+
+.button:disabled {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-text-fill: rgba(255, 255, 255, 0.4);
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-opacity: 0.7;
+    -fx-cursor: default;
+}
+
+/* ===================================================================
+   LABELS
+   =================================================================== */
+
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 12px;
+}
+
+/* Toolbar labels need white text on the blue ribbon */
+.tool-bar .label {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px;
+}
+
+.title-label {
+    -fx-text-fill: #222222;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* ===================================================================
+   SCROLL PANE
+   =================================================================== */
+
+.scroll-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-padding: 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .corner {
+    -fx-background-color: #f0f0f0;
+}
+
+/* Scrollbar track */
+.scroll-pane .scroll-bar .track {
+    -fx-background-color: #e8e8e8;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0;
+}
+
+/* Scrollbar thumb */
+.scroll-pane .scroll-bar .thumb {
+    -fx-background-color: #b0b0b0;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+
+.scroll-pane .scroll-bar .thumb:hover {
+    -fx-background-color: #909090;
+}
+
+.scroll-pane .scroll-bar .thumb:pressed {
+    -fx-background-color: #707070;
+}
+
+/* Scrollbar increment / decrement buttons */
+.scroll-pane .scroll-bar .increment-button,
+.scroll-pane .scroll-bar .decrement-button {
+    -fx-background-color: #e0e0e0;
+    -fx-border-color: #cccccc;
+    -fx-padding: 3;
+}
+
+.scroll-pane .scroll-bar .increment-arrow,
+.scroll-pane .scroll-bar .decrement-arrow {
+    -fx-background-color: #666666;
+}
+
+/* ===================================================================
+   TOOLTIP
+   =================================================================== */
+
+.tooltip {
+    -fx-background-color: #fffff0;
+    -fx-text-fill: #333333;
+    -fx-border-color: #999999;
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-font-size: 11px;
+    -fx-padding: 4 8 4 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 1);
+}
+
+/* ===================================================================
+   CONTEXT MENU
+   =================================================================== */
+
+.context-menu {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #c0c0c0;
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-padding: 2 0 2 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 2);
+}
+
+.context-menu .menu-item {
+    -fx-background-color: transparent;
+    -fx-padding: 4 12 4 12;
+}
+
+.context-menu .menu-item:hover,
+.context-menu .menu-item:focused {
+    -fx-background-color: #2e5090;
+}
+
+.context-menu .menu-item .label {
+    -fx-text-fill: #222222;
+    -fx-font-size: 12px;
+}
+
+.context-menu .menu-item:hover .label,
+.context-menu .menu-item:focused .label {
+    -fx-text-fill: white;
+}
+
+.context-menu .separator .line {
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 0.5 0 0 0;
+}
+
+/* ===================================================================
+   TEXT FIELD / TEXT INPUT
+   =================================================================== */
+
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #222222;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-padding: 4 8 4 8;
+    -fx-font-size: 12px;
+    -fx-prompt-text-fill: #999999;
+}
+
+.text-field:focused {
+    -fx-border-color: #2e5090;
+    -fx-background-color: #ffffff;
+}
+
+/* ===================================================================
+   COMBO BOX / CHOICE BOX
+   =================================================================== */
+
+.combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-cursor: hand;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #222222;
+    -fx-background-color: transparent;
+    -fx-font-size: 12px;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a0a0a0;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-text-fill: #222222;
+    -fx-padding: 4 8 4 8;
+}
+
+.combo-box-popup .list-view .list-cell:hover,
+.combo-box-popup .list-view .list-cell:filled:hover {
+    -fx-background-color: #2e5090;
+    -fx-text-fill: white;
+}
+
+/* ===================================================================
+   CHECK BOX
+   =================================================================== */
+
+.check-box {
+    -fx-text-fill: #222222;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.check-box .box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a0a0a0;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-padding: 2;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #2e5090;
+    -fx-border-color: #2e5090;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+/* ===================================================================
+   SLIDER
+   =================================================================== */
+
+.slider .track {
+    -fx-background-color: #d0d0d0;
+    -fx-background-radius: 3;
+    -fx-pref-height: 4;
+}
+
+.slider .thumb {
+    -fx-background-color: #2e5090;
+    -fx-background-radius: 8;
+    -fx-padding: 6;
+    -fx-cursor: hand;
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #3b6cb5;
+}
+
+/* ===================================================================
+   TAB PANE (for potential future panels)
+   =================================================================== */
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #e8e8e8;
+}
+
+.tab-pane .tab {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 6 12 6 12;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #666666;
+    -fx-font-size: 12px;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #c0c0c0 #c0c0c0 transparent #c0c0c0;
+    -fx-border-width: 1;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #222222;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab:hover .tab-label {
+    -fx-text-fill: #333333;
+}
+
+/* ===================================================================
+   SPLIT PANE
+   =================================================================== */
+
+.split-pane {
+    -fx-background-color: #f0f0f0;
+    -fx-padding: 0;
+}
+
+.split-pane .split-pane-divider {
+    -fx-background-color: #c0c0c0;
+    -fx-padding: 0 1 0 1;
+}
+
+.split-pane .split-pane-divider:hover {
+    -fx-background-color: #2e5090;
+}
+
+/* ===================================================================
+   DIALOG / ALERT
+   =================================================================== */
+
+.dialog-pane {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #c0c0c0;
+    -fx-border-width: 1;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #e0e0e0;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: #222222;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .content.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 12px;
+}
+
+/* Dialog buttons need dark text (not on blue toolbar) */
+.dialog-pane .button {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #222222;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: #d0d0d0;
+    -fx-text-fill: #111111;
+}
+
+.dialog-pane .button:pressed {
+    -fx-background-color: #c0c0c0;
+}
+
+/* ===================================================================
+   MENU BAR (MATLAB-style ribbon menus)
+   =================================================================== */
+
+.menu-bar {
+    -fx-background-color: #e0e0e0;
+    -fx-border-color: transparent transparent #c0c0c0 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 0;
+}
+
+.menu-bar .menu {
+    -fx-padding: 4 8 4 8;
+}
+
+.menu-bar .menu .label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 12px;
+}
+
+.menu-bar .menu:hover .label,
+.menu-bar .menu:showing .label {
+    -fx-text-fill: #222222;
+}

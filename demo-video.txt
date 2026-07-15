@@ -1,0 +1,5 @@
+YouTube Demo
+https://www.youtube.com/watch?v=RMCln3emfm0
+
+Medium Blog
+https://medium.com/@dineshsj/building-a-signal-flow-simulator-with-javafx-maven-jni-my-technical-assignment-journey-d490aa64c6b6

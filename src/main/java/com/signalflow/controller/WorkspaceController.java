@@ -20,7 +20,7 @@ import com.signalflow.view.WorkspaceCanvas;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
 import javafx.scene.shape.StrokeLineCap;
 
 import java.util.ArrayDeque;
@@ -42,7 +42,7 @@ public class WorkspaceController {
 
     // Transient state for the "drag-a-wire" interaction
     private PortNode connectionSource;
-    private Line tempWire;
+    private Polyline tempWire;
 
     // Undo stack for actions
     private final Deque<Runnable> undoStack = new ArrayDeque<>();
@@ -176,8 +176,17 @@ public class WorkspaceController {
                 if (event.isPrimaryButtonDown() && connectionSource != null) {
                     javafx.geometry.Point2D p = canvas.sceneToLocal(event.getSceneX(), event.getSceneY());
                     if (tempWire != null) {
-                        tempWire.setEndX(p.getX());
-                        tempWire.setEndY(p.getY());
+                        double startX = tempWire.getPoints().get(0);
+                        double startY = tempWire.getPoints().get(1);
+                        double endX = p.getX();
+                        double endY = p.getY();
+                        double midX = (startX + endX) / 2.0;
+                        tempWire.getPoints().setAll(
+                            startX, startY,
+                            midX, startY,
+                            midX, endY,
+                            endX, endY
+                        );
                     }
                     event.consume();
                 }
@@ -208,7 +217,12 @@ public class WorkspaceController {
         double startY = source.getParentBlockNode().getLayoutY()
                 + source.getLayoutY() + source.getRadius();
 
-        tempWire = new Line(startX, startY, startX, startY);
+        tempWire = new Polyline(
+            startX, startY,
+            startX, startY,
+            startX, startY,
+            startX, startY
+        );
         tempWire.setStroke(Color.web("#666666", 0.7));
         tempWire.setStrokeWidth(1.5);
         tempWire.setStrokeLineCap(StrokeLineCap.ROUND);
@@ -274,11 +288,7 @@ public class WorkspaceController {
     }
 
     private void updateTempWire(MouseEvent event) {
-        if (tempWire == null) {
-            return;
-        }
-        tempWire.setEndX(event.getX());
-        tempWire.setEndY(event.getY());
+        // Unused method
     }
 
     // ── Block dragging ──────────────────────────────────────────────────

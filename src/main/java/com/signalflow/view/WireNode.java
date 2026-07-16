@@ -6,8 +6,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
 
 /**
  * Visual representation of a {@link Connection} between two {@link PortNode}s.
@@ -22,17 +23,18 @@ public class WireNode extends Group {
     private final PortNode sourcePortNode;
     private final PortNode destPortNode;
     private final Connection modelConnection;
-    private final Line line;
+    private final Polyline line;
 
     public WireNode(PortNode sourcePortNode, PortNode destPortNode, Connection modelConnection) {
         this.sourcePortNode = sourcePortNode;
         this.destPortNode = destPortNode;
         this.modelConnection = modelConnection;
 
-        this.line = new Line();
+        this.line = new Polyline();
         line.setStroke(Color.BLACK);
         line.setStrokeWidth(1.5);
         line.setStrokeLineCap(StrokeLineCap.ROUND);
+        line.setStrokeLineJoin(StrokeLineJoin.MITER);
 
         // Consume right-click so the context-menu handling stays with the controller
         line.setOnMousePressed(event -> {
@@ -74,17 +76,31 @@ public class WireNode extends Group {
                 + destPortNode.getLayoutY()
                 + destPortNode.getRadius();
 
-        line.setStartX(startX);
-        line.setStartY(startY);
-        line.setEndX(endX);
-        line.setEndY(endY);
+        // Smart orthogonal routing matching Simulink style:
+        // If ports are at (nearly) the same Y, draw a single horizontal line.
+        // Otherwise, route H → V → H (horizontal-vertical-horizontal).
+        if (Math.abs(startY - endY) < 2.0) {
+            // Straight horizontal wire
+            line.getPoints().setAll(
+                startX, startY,
+                endX, startY
+            );
+        } else {
+            double midX = (startX + endX) / 2.0;
+            line.getPoints().setAll(
+                startX, startY,
+                midX, startY,
+                midX, endY,
+                endX, endY
+            );
+        }
     }
 
     public Connection getModelConnection() {
         return modelConnection;
     }
 
-    public Line getLine() {
+    public Polyline getLine() {
         return line;
     }
 

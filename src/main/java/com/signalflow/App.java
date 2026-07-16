@@ -192,10 +192,12 @@ public class App extends Application {
         primaryStage.show();
 
         // ── Seed the workspace with a default signal chain ──────────────
-        BlockNode clockNode = workspaceController.addBlock("Clock", 100, 150);
-        BlockNode sineNode = workspaceController.addBlock("Sine", 250, 100);
-        BlockNode cosineNode = workspaceController.addBlock("Cosine", 250, 200);
-        BlockNode scopeNode = workspaceController.addBlock("Scope", 400, 150);
+        // Layout matching MATLAB Simulink reference:
+        // Clock far-left, Sine/Cosine stacked in the middle, Scope far-right
+        BlockNode clockNode  = workspaceController.addBlock("Clock",  80, 200);
+        BlockNode sineNode   = workspaceController.addBlock("Sine",   300, 120);
+        BlockNode cosineNode = workspaceController.addBlock("Cosine", 300, 280);
+        BlockNode scopeNode  = workspaceController.addBlock("Scope",  550, 200);
 
         workspaceController.connectBlocks(clockNode, "out", sineNode, "in");
         workspaceController.connectBlocks(clockNode, "out", cosineNode, "in");

@@ -20,7 +20,7 @@ import com.signalflow.view.WorkspaceCanvas;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 
 import java.util.ArrayDeque;
@@ -42,7 +42,7 @@ public class WorkspaceController {
 
     // Transient state for the "drag-a-wire" interaction
     private PortNode connectionSource;
-    private Polyline tempWire;
+    private Line tempWire;
 
     // Undo stack for actions
     private final Deque<Runnable> undoStack = new ArrayDeque<>();
@@ -137,6 +137,16 @@ public class WorkspaceController {
         graph.removeConnection(wire.getModelConnection());
         canvas.getWireLayer().getChildren().remove(wire);
         wireNodes.remove(wire);
+
+        // Show the destination port dot again
+        showPort(wire.getDestPortNode());
+
+        // Show source port dot only if no other wires use it
+        boolean sourceStillUsed = wireNodes.stream()
+                .anyMatch(w -> w.getSourcePortNode() == wire.getSourcePortNode());
+        if (!sourceStillUsed) {
+            showPort(wire.getSourcePortNode());
+        }
     }
 
     // ── Accessors ───────────────────────────────────────────────────────
@@ -176,17 +186,8 @@ public class WorkspaceController {
                 if (event.isPrimaryButtonDown() && connectionSource != null) {
                     javafx.geometry.Point2D p = canvas.sceneToLocal(event.getSceneX(), event.getSceneY());
                     if (tempWire != null) {
-                        double startX = tempWire.getPoints().get(0);
-                        double startY = tempWire.getPoints().get(1);
-                        double endX = p.getX();
-                        double endY = p.getY();
-                        double midX = (startX + endX) / 2.0;
-                        tempWire.getPoints().setAll(
-                            startX, startY,
-                            midX, startY,
-                            midX, endY,
-                            endX, endY
-                        );
+                        tempWire.setEndX(p.getX());
+                        tempWire.setEndY(p.getY());
                     }
                     event.consume();
                 }
@@ -217,12 +218,7 @@ public class WorkspaceController {
         double startY = source.getParentBlockNode().getLayoutY()
                 + source.getLayoutY() + source.getRadius();
 
-        tempWire = new Polyline(
-            startX, startY,
-            startX, startY,
-            startX, startY,
-            startX, startY
-        );
+        tempWire = new Line(startX, startY, startX, startY);
         tempWire.setStroke(Color.web("#666666", 0.7));
         tempWire.setStrokeWidth(1.5);
         tempWire.setStrokeLineCap(StrokeLineCap.ROUND);
@@ -263,6 +259,10 @@ public class WorkspaceController {
             WireNode wire = new WireNode(connectionSource, destPort, connection);
             canvas.addWireNode(wire);
             wireNodes.add(wire);
+
+            // Hide both port dots — the arrow replaces them visually
+            hidePort(connectionSource);
+            hidePort(destPort);
             
             undoStack.push(() -> removeWire(wire));
         }
@@ -289,6 +289,24 @@ public class WorkspaceController {
 
     private void updateTempWire(MouseEvent event) {
         // Unused method
+    }
+
+    // ── Port visibility helpers ──────────────────────────────────────────
+
+    /**
+     * Hides a port dot (makes it transparent) while keeping it interactive.
+     */
+    private void hidePort(PortNode port) {
+        port.setFill(Color.TRANSPARENT);
+        port.setStroke(Color.TRANSPARENT);
+    }
+
+    /**
+     * Shows a port dot (restores its black fill and stroke).
+     */
+    private void showPort(PortNode port) {
+        port.setFill(Color.BLACK);
+        port.setStroke(Color.BLACK);
     }
 
     // ── Block dragging ──────────────────────────────────────────────────
